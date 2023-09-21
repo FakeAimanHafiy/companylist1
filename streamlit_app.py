@@ -14,9 +14,7 @@ import streamlit.components.v1 as components
 from streamlit_folium import st_folium
 
 # Import the sidebar function from sidebar.py
-# from sidebar import sidebar
-# from sidebar import sidebar, create_sidebar_container, update_sidebar_container
-
+from sidebar import sidebar
 import plotly.express as px
 
 
@@ -27,9 +25,6 @@ def read_file(filename, sheetname):
     data_d = excel_file.parse(sheet_name=sheetname)
 
     return data_d
-    
-# sidebar_container = create_sidebar_container()
-
 
 if __name__ == '__main__':
     st.title('Available ITP companies in Malaysia')
@@ -110,31 +105,6 @@ if __name__ == '__main__':
     #         # Add a click event to the marker
     #         marker.add_to(map_my)
     #         marker.add_child(folium.ClickForMarker(popup=update_sidebar))
-
-    # Modify the marker click event handler to update the sidebar container
-    # def update_sidebar(marker=marker, sidebar_container=sidebar_container, itp_data=itp_data):
-    #     company_name = itp_data['Company name']
-    #     company_address = itp_data['Company address']
-        
-    #     # Update the sidebar with company information
-    #     update_sidebar_container(sidebar_container, company_name, company_address)
-    
-    #     # Clear previous selection if any
-    #     st.session_state.selected_marker = None
-    
-    #     # Store the selected marker in session state
-    #     st.session_state.selected_marker = marker
-    
-    #     # Highlight the selected marker
-    #     marker.add_to(map_my)
-    
-    #     # Create a function to remove the highlight when another marker is clicked
-    #     def clear_highlighted_marker():
-    #         if st.session_state.selected_marker:
-    #             st.session_state.selected_marker.remove_from(map_my)
-        
-    #     # Add a click event to the marker to clear the highlight
-    #     marker.add_child(folium.ClickForMarker(popup=clear_highlighted_marker))
 
 
 
