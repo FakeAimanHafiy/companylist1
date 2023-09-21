@@ -11,11 +11,10 @@ from shapely.geometry import Point
 
 import streamlit as st
 import streamlit.components.v1 as components
-from streamlit_folium import st_folium
+import plotly.express as px
 
 # Import the sidebar functions from sidebar.py
 from sidebar import create_sidebar_container, update_sidebar_container
-import plotly.express as px
 
 # 3.16000, 101.71000: Kuala Lumpur
 
@@ -85,25 +84,7 @@ if __name__ == '__main__':
         if not math.isnan(latitude) and not math.isnan(longitude):
             marker = folium.Marker(location=[latitude, longitude], tooltip=company_name)
 
-            # # Create a custom JavaScript function to update the sidebar
-            # javascript = f"""
-            # function markerClick() {{
-            #     var marker = {marker.get_name()};
-            #     marker.on('click', function (e) {{
-            #         updateSidebar("{company_name}", "{company_address}");
-            #     }});
-            # }}
-            # markerClick();
-            # """
-            # ...
-            # Create a function to update the sidebar with company information
-            def update_sidebar(marker, company_info_container, company_name, company_address):
-                company_info_container.write(f"**Company Name:** {company_name}")
-                company_info_container.write(f"**Company Address:** {company_address}")
-            
-            # Add a click event to the marker using a custom JavaScript event listener
-            marker.add_to(map_my)
-            
+            # Create a custom JavaScript function to update the sidebar
             javascript = f"""
             function markerClick() {{
                 var marker = {marker.get_name()};
@@ -113,23 +94,15 @@ if __name__ == '__main__':
             }}
             markerClick();
             """
-            
-            folium.map.CustomHtml(
-                javascript,
-                script=True
-            ).add_to(map_my)
-            
-            # ...
 
-            
-
-            folium.CustomPane("customPane", map_my).add_to(map_my)
-            folium.CustomPane("popupPane", map_my).add_to(map_my)
             folium.map.Marker(
                 [latitude, longitude],
                 icon=None,
                 popup=None,
-                pane="popupPane"
+                tooltip=None,
+                icon=None,
+                angle=0,
+                prefix='glyphicon',
             ).add_to(map_my)
             map_my.get_root().html.add_child(folium.Element(javascript))
 
@@ -179,7 +152,6 @@ if __name__ == '__main__':
         text_load_state.text('Plotting ... Done!')
 
         map_my.save('itp_area_map.html')
-        # p = open('itp_area_map.html')
         p = open('itp_area_map.html', 'r', encoding='utf-8')
         components.html(p.read(), 1000, 600)
         st.title('Company Per District')
