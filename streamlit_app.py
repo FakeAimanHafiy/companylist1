@@ -131,6 +131,9 @@ if __name__ == '__main__':
         if not math.isnan(latitude) and not math.isnan(longitude):
             folium.Marker(location=[latitude, longitude], popup=popup_name, tooltip=company_name).add_to(map_my)
 
+    text_load_state.text('')
+
+    
     # Specify the file name
     from data_processing import process_data, generate_bar_chart
 
