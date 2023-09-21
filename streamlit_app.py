@@ -94,6 +94,7 @@ if __name__ == '__main__':
                 }});
             }}
             markerClick();
+            """
             
 
             folium.CustomPane("customPane", map_my).add_to(map_my)
