@@ -109,27 +109,27 @@ if __name__ == '__main__':
 
 
 
-# Specify the file name
-from data_processing import process_data, generate_bar_chart
-
-# Specify the file name
-file_name = "MMU ITP List 13_9_9_11.xlsx"
-
-# Data processing
-df = process_data(file_name)
-
-# Sidebar for state selection
-if df is not None:
-    selected_state = st.sidebar.selectbox("Select a State", df['STATE'].unique())
-else:
-    selected_state = None
-
-# Generate the bar chart
-fig = generate_bar_chart(df, selected_state)
-
-# Display the plotly figure
-st.title('Company Per District')
-st.plotly_chart(fig)
+    # Specify the file name
+    from data_processing import process_data, generate_bar_chart
+    
+    # Specify the file name
+    file_name = "MMU ITP List 13_9_9_11.xlsx"
+    
+    # Data processing
+    df = process_data(file_name)
+    
+    # Sidebar for state selection
+    if df is not None:
+        selected_state = st.sidebar.selectbox("Select a State", df['STATE'].unique())
+    else:
+        selected_state = None
+    
+    # Generate the bar chart
+    fig = generate_bar_chart(df, selected_state)
+    
+    # Display the plotly figure
+    st.title('Company Per District')
+    st.plotly_chart(fig)
 
 
 #python -m streamlit run map_area.py
