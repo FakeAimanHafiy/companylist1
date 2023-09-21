@@ -131,7 +131,7 @@ if __name__ == '__main__':
         if not math.isnan(latitude) and not math.isnan(longitude):
             folium.Marker(location=[latitude, longitude], popup=popup_name, tooltip=company_name).add_to(map_my)
 
-    text_load_state.text('')
+    # text_load_state.text('')
 
     
     # Specify the file name
@@ -151,6 +151,8 @@ if __name__ == '__main__':
 
     # Generate the bar chart
     fig = generate_bar_chart(df, selected_state)
+
+    text_load_state.text('Plotting ... Done!')
 
     # Create and display the map
     map_my = create_map(geojson_file, itp_list_state)
