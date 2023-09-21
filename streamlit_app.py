@@ -83,28 +83,28 @@ if __name__ == '__main__':
         company_address = itp_data['Company address']
         popup_name = '<strong>' + str(itp_data['Company name']) + '</strong>\n' + str(itp_data['Company address'])
         if not math.isnan(latitude) and not math.isnan(longitude):
-            marker = folium.Marker(location=[latitude, longitude], popup=popup_name, tooltip=company_name)
-            marker.add_to(map_my)
+            marker = folium.Marker(location=[latitude, longitude], tooltip=company_name)
 
-            # # Create a function to update the sidebar with company information when marker is clicked
-            # def update_sidebar(marker=marker, sidebar_container=sidebar_container,
-            #                    company_name=company_name, company_address=company_address):
-            #     update_sidebar_container(sidebar_container, company_name, company_address)
+            # Create a custom JavaScript function to update the sidebar
+            javascript = f"""
+            function markerClick() {{
+                var marker = {marker.get_name()};
+                marker.on('click', function (e) {{
+                    updateSidebar("{company_name}", "{company_address}");
+                }});
+            }}
+            markerClick();
+            
 
-            # # Add a click event to the marker
-            # marker.add_child(folium.ClickForMarker(popup=update_sidebar))
-            # ...
-            
-            # Create a function to update the sidebar with company information
-            def update_sidebar(marker, company_info_container, company_name, company_address):
-                company_info_container.write(f"**Company Name:** {company_name}")
-                company_info_container.write(f"**Company Address:** {company_address}")
-            
-            # Add a click event to the marker
-            marker.add_to(map_my)
-            marker.add_child(folium.ClickForMarker(popup=lambda x: update_sidebar(marker, company_info_container, company_name, company_address)))
-            
-            # ...
+            folium.CustomPane("customPane", map_my).add_to(map_my)
+            folium.CustomPane("popupPane", map_my).add_to(map_my)
+            folium.map.Marker(
+                [latitude, longitude],
+                icon=None,
+                popup=None,
+                pane="popupPane"
+            ).add_to(map_my)
+            map_my.get_root().html.add_child(folium.Element(javascript))
 
     # Specify the file name
     file_name = "MMU ITP List 13_9_9_11.xlsx"
@@ -157,3 +157,6 @@ if __name__ == '__main__':
         components.html(p.read(), 1000, 600)
         st.title('Company Per District')
         st.plotly_chart(fig)
+
+    # Update the sidebar container with company information when a marker is clicked
+    update_sidebar_container(sidebar_container)
