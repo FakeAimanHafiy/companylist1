@@ -95,7 +95,7 @@ if __name__ == '__main__':
             markerClick();
             """
 
-            folium.map.Marker(
+            folium.Marker(
                 [latitude, longitude],
                 icon=None,
                 popup=None,
