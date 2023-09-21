@@ -1,15 +1,15 @@
 import streamlit as st
 
 def sidebar():
+    st.sidebar.title('Company Information')
+    
     # Create a container in the sidebar
-    sidebar_container = st.sidebar.container()
+    container = st.sidebar.container()
+    
+    # Add some text to the container
+    container.write('This is a test container.')
+    
+    # You can add more content to the container as needed
+    container.write('You can add more text or widgets here.')
 
-    # Add content to the container
-    with sidebar_container:
-        st.title('Company Information')
-        st.header('Sidebar Header')
-        st.write('This is the sidebar content.')
-
-    # You can add more content to the sidebar outside the container if needed
-    # st.sidebar.write('Other sidebar content here')
-
+    st.empty()  # This can be used to create empty space between the sidebar and the main content
