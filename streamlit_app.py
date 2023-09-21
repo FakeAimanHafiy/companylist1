@@ -110,12 +110,13 @@ if __name__ == '__main__':
 
 
 # Specify the file name
+from data_processing import process_data, generate_bar_chart
+
+# Specify the file name
 file_name = "MMU ITP List 13_9_9_11.xlsx"
 
-try:
-    df = pd.read_excel(file_name, engine='openpyxl')
-except FileNotFoundError:
-    st.error(f"File '{file_name}' not found.")
+# Data processing
+df = process_data(file_name)
 
 # Sidebar for state selection
 if df is not None:
@@ -123,44 +124,12 @@ if df is not None:
 else:
     selected_state = None
 
-# Data processing
-if df is not None:
-    grouped_data = df.groupby(['STATE', 'CITY']).size().reset_index(name='CompanyCount')
-    grouped_data = grouped_data.sort_values(by=['STATE', 'CompanyCount'], ascending=[True, False])
+# Generate the bar chart
+fig = generate_bar_chart(df, selected_state)
 
-    # Create bar chart
-    if selected_state:
-        filtered_data = grouped_data[grouped_data['STATE'] == selected_state]
-        fig = px.bar(
-            filtered_data,
-            x='CompanyCount',
-            y='CITY',
-            orientation='h',
-            labels={'CITY': 'City', 'CompanyCount': 'Number of Companies'},
-            title=f'Company Distribution per City in {selected_state}'
-            
-        )
-    else:
-        fig = px.bar(
-            grouped_data,
-            x='CompanyCount',
-            y='CITY',
-            orientation='h',
-            labels={'CITY': 'City', 'CompanyCount': 'Number of Companies'},
-            title='Company Distribution per City in Malaysia (Sorted by State and City)'
-        )
+# Display the plotly figure
+st.title('Company Per District')
+st.plotly_chart(fig)
 
-    # Display the plotly figure
-    
-    
-    text_load_state.text('Plotting ... Done!')
-
-    map_my.save('itp_area_map.html')
-    # p = open('itp_area_map.html')
-    p = open('itp_area_map.html', 'r', encoding='utf-8')
-    components.html(p.read(), 1000, 600)
-    st.title('Company Per District')
-    st.plotly_chart(fig)
-    
 
 #python -m streamlit run map_area.py
