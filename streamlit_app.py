@@ -94,15 +94,18 @@ if __name__ == '__main__':
             # # Add a click event to the marker
             # marker.add_child(folium.ClickForMarker(popup=update_sidebar))
             # ...
+            
             # Create a function to update the sidebar with company information
-            def update_sidebar(marker=marker, company_info_container=company_info_container, company_name=company_name, company_address=company_address):
+            def update_sidebar(marker, company_info_container, company_name, company_address):
                 company_info_container.write(f"**Company Name:** {company_name}")
                 company_info_container.write(f"**Company Address:** {company_address}")
             
             # Add a click event to the marker
             marker.add_to(map_my)
-            marker.add_child(folium.ClickForMarker())  # Remove the 'popup' parameter            
-            # ...        
+            marker.add_child(folium.ClickForMarker(popup=lambda x: update_sidebar(marker, company_info_container, company_name, company_address)))
+            
+            # ...
+
     # Specify the file name
     file_name = "MMU ITP List 13_9_9_11.xlsx"
 
