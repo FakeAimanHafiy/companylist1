@@ -85,7 +85,25 @@ if __name__ == '__main__':
         if not math.isnan(latitude) and not math.isnan(longitude):
             marker = folium.Marker(location=[latitude, longitude], tooltip=company_name)
 
-            # Create a custom JavaScript function to update the sidebar
+            # # Create a custom JavaScript function to update the sidebar
+            # javascript = f"""
+            # function markerClick() {{
+            #     var marker = {marker.get_name()};
+            #     marker.on('click', function (e) {{
+            #         updateSidebar("{company_name}", "{company_address}");
+            #     }});
+            # }}
+            # markerClick();
+            # """
+            # ...
+            # Create a function to update the sidebar with company information
+            def update_sidebar(marker, company_info_container, company_name, company_address):
+                company_info_container.write(f"**Company Name:** {company_name}")
+                company_info_container.write(f"**Company Address:** {company_address}")
+            
+            # Add a click event to the marker using a custom JavaScript event listener
+            marker.add_to(map_my)
+            
             javascript = f"""
             function markerClick() {{
                 var marker = {marker.get_name()};
@@ -95,6 +113,14 @@ if __name__ == '__main__':
             }}
             markerClick();
             """
+            
+            folium.map.CustomHtml(
+                javascript,
+                script=True
+            ).add_to(map_my)
+            
+            # ...
+
             
 
             folium.CustomPane("customPane", map_my).add_to(map_my)
