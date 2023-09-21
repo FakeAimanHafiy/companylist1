@@ -96,13 +96,12 @@ if __name__ == '__main__':
             """
 
             folium.Marker(
-                [latitude, longitude],
+                location=[latitude, longitude],
                 icon=None,
                 popup=None,
                 tooltip=None,
-                icon=None,
                 angle=0,
-                prefix='glyphicon',
+                prefix='glyphicon'
             ).add_to(map_my)
             map_my.get_root().html.add_child(folium.Element(javascript))
 
