@@ -1,9 +1,8 @@
 import streamlit as st
 
-def sidebar():
-    # st.sidebar.title('Sidebar Title')
-    st.sidebar.title('Company Information')
-    st.sidebar.header('Sidebar Header')
-    st.sidebar.write('This is the sidebar content.')
+def create_sidebar_container():
+    return st.sidebar.container()
 
-    st.empty()
+def update_sidebar_container(container, company_name, company_address):
+    container.write(f"**Company Name:** {company_name}")
+    container.write(f"**Company Address:** {company_address}")
